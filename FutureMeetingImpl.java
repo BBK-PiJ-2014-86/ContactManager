@@ -4,6 +4,10 @@ import java.util.Calendar;
 import java.util.Set;
 
 public class FutureMeetingImpl implements FutureMeeting {
+	
+	private int id;
+	private Calendar date;
+	private Set <Contact> contacts;
 
 	@Override
 	public int getId() {
