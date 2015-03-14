@@ -1,6 +1,10 @@
 package ContactManager;
 
 public class ContactImpl implements Contact{
+	
+	private String Notes;
+	private int id;
+	private String name;
 
 	@Override
 	public int getId() {
@@ -25,5 +29,5 @@ public class ContactImpl implements Contact{
 		// TODO Auto-generated method stub
 		
 	}
-
+ 
 }
