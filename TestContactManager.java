@@ -17,7 +17,7 @@ public class TestContactManager {
 	Calendar date;
 	
 	/**
-	 * initialising fields in Before to implement before starting 
+	 * Initialising fields in Before to implement before starting 
 	 */
 	@Before
 	public void buildUp () {
@@ -26,13 +26,35 @@ public class TestContactManager {
 		date = Calendar.getInstance();
 	}
 	
+	/**
+	 * This test ensures that IllegalArgumentException is thrown if the contact in parameter passed to addFurureMeeting method is unknown.
+	 */
+	
 	@Test (expected= IllegalArgumentException.class)
-	public void addFutureMeetingTest1() {
+	
+	public void addFutureMeetingTestUnknownContactError () {
 		
 		testContactManager.addNewContact("Marcus Eoin", "Interview");
 		contacts.add(new ContactImpl ("Michael Sandison"));
 		date.set(2015, Calendar.JUNE, 9);
 		testContactManager.addFutureMeeting(contacts, date);
 	}
+	
+	/**
+	 * This test checks if IllegalArgumentException is thrown if the date passed to addFurureMeeting method is not in the future.
+	 */
+	
+	@Test (expected= IllegalArgumentException.class)
+	
+	public void addFutureMeetingTestPastDateError () {
+		
+		testContactManager.addNewContact("Marcus Eoin", "Interview");
+		contacts.add(new ContactImpl ("Michael Eoin"));
+		date.set(2014, Calendar.JUNE, 9);
+		testContactManager.addFutureMeeting(contacts, date);
+	}
+	
+	
+	
 
 }
