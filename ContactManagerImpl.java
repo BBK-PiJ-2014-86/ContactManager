@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Set;
 
 public class ContactManagerImpl implements ContactManager{
+	
+	private List <Contact> contactList;
+	private List <PastMeeting> pastMeetingList;
+	private List <FutureMeeting> futureMeetingList;
+	
 
 	@Override
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
