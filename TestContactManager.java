@@ -69,13 +69,20 @@ public class TestContactManager {
 		int id = testContactManager.addFutureMeeting(contacts, date);
 		assertEquals(testContactManager.getFutureMeeting(id).getId(),id);
 	}
+	
+	
+	/**
+	 * This test ensures that IllegalArgumentException is thrown if the Set passed as a parameter is null.
+	 */
+	
+	@Test (expected= IllegalArgumentException.class)
+	
+	public void addFutureMeetingTestUnknownContactNull () {
 		
-	
-	
-	@Test 
-	
-	public void 
-	
+		testContactManager.addNewContact("Marcus Eoin", "Interview");
+		date.set(2015, Calendar.JUNE, 9);
+		testContactManager.addFutureMeeting(contacts, date);
+	}
 	
 	
 
