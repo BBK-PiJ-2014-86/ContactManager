@@ -14,8 +14,8 @@ public class TestContactManager {
 
 	private ContactManager testContactManager;
 	private Set <Contact> contacts;
-	private Calendar date;
-	private final String HHH;
+	private final Calendar date;
+	Contact 
 	
 	/**
 	 * Initialising fields in Before to implement before starting 
@@ -37,7 +37,7 @@ public class TestContactManager {
 	public void addFutureMeetingTestUnknownContactError () {
 		
 		testContactManager.addNewContact("Marcus Eoin", "Interview");
-		contacts.add(new ContactImpl ("Michael Sandison"));
+		contacts.add(new ContactImpl (1, "Michael Sandison"));
 		date.set(2015, Calendar.JUNE, 9);
 		testContactManager.addFutureMeeting(contacts, date);
 	}
@@ -51,7 +51,7 @@ public class TestContactManager {
 	public void addFutureMeetingTestPastDateError () {
 		
 		testContactManager.addNewContact("Marcus Eoin", "Interview");
-		contacts.add(new ContactImpl ("Michael Eoin"));
+		contacts.add(new ContactImpl (1, "Marcus Eoin"));
 		date.set(2014, Calendar.JUNE, 9);
 		testContactManager.addFutureMeeting(contacts, date);
 	}
@@ -65,13 +65,16 @@ public class TestContactManager {
 	public void addFutureMeetingTest () {
 		
 		testContactManager.addNewContact("Marcus Eoin", "Interview");
-		contacts.add(new ContactImpl ("Michael Eoin"));
+		contacts.add(new ContactImpl (1, "Marcus Eoin"));
 		int id = testContactManager.addFutureMeeting(contacts, date);
 		assertEquals(testContactManager.getFutureMeeting(id).getId(),id);
 	}
 		
-		@Test 
-		public void 
+	
+	
+	@Test 
+	
+	public void 
 	
 	
 	
