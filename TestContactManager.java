@@ -12,9 +12,10 @@ import org.junit.Test;
 
 public class TestContactManager {
 
-	ContactManager testContactManager;
-	Set <Contact> contacts;
-	Calendar date;
+	private ContactManager testContactManager;
+	private Set <Contact> contacts;
+	private Calendar date;
+	private final String HHH;
 	
 	/**
 	 * Initialising fields in Before to implement before starting 
@@ -24,6 +25,7 @@ public class TestContactManager {
 		testContactManager = new ContactManagerImpl();
 		contacts = new HashSet();
 		date = Calendar.getInstance();
+		
 	}
 	
 	/**
@@ -53,6 +55,23 @@ public class TestContactManager {
 		date.set(2014, Calendar.JUNE, 9);
 		testContactManager.addFutureMeeting(contacts, date);
 	}
+	
+	/**
+	 * This test checks the normal case. 
+	 */
+	
+	@Test
+	
+	public void addFutureMeetingTest () {
+		
+		testContactManager.addNewContact("Marcus Eoin", "Interview");
+		contacts.add(new ContactImpl ("Michael Eoin"));
+		int id = testContactManager.addFutureMeeting(contacts, date);
+		assertEquals(testContactManager.getFutureMeeting(id).getId(),id);
+	}
+		
+		@Test 
+		public void 
 	
 	
 	

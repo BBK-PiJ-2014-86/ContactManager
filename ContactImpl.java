@@ -5,6 +5,12 @@ public class ContactImpl implements Contact{
 	private String Notes;
 	private int id;
 	private String name;
+	
+	public ContactImpl (int id, String name) {
+		this.id = id;
+		this.name = name;
+		
+	}
 
 	@Override
 	public int getId() {
