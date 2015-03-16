@@ -111,7 +111,7 @@ public class TestContactManager {
 		
 		final int id = 1;
 		
-		date.set(2015, Calendar.JUNE,9);
+		date.set(2014, Calendar.JUNE,9);
 		PastMeeting pastMeeting = new PastMeetingImpl (id,date,new HashSet ());
 		ContactManagerImpl contactManager = new ContactManagerImpl ();
 		contactManager.addNewPastMeeting(pastMeeting);
@@ -141,12 +141,63 @@ public class TestContactManager {
 	public void getPastMeetingException () {
 		
 		final int id = 1;
-		date.set(2015, Calendar.APRIL, 15);
+		date.set(2014, Calendar.APRIL, 15);
 		
 		FutureMeeting futureMeeting = new FutureMeetingImpl (id,date, new HashSet ()); 
 		
 		try{
 		testContactManager.getPastMeeting(id);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * This test tests the normal case of the getPastMeeting method
+	 */
+	
+	@Test 
+	
+	public void getFutureMeetingNormalCase () {
+		
+		final int id = 1;
+		
+		date.set(2015, Calendar.JUNE,9);
+		FutureMeeting futureMeeting = new FutureMeetingImpl (id,date,new HashSet ());
+		ContactManagerImpl contactManager = new ContactManagerImpl ();
+		contactManager.addNewFutureMeeting(futureMeeting);
+		
+		assertEquals(futureMeeting, contactManager.getPastMeeting(id));
+		
+	}
+	
+	/**
+	 * This test tests if the method returns null if id is not found.
+	 */
+	
+	@Test 
+	
+	public void getFutureMeetingNull () {
+		
+		final int id = 4;
+		assertEquals (testContactManager.getFutureMeeting(4), null); // there isn't a PastMeeting with id = 4 so this must return null.
+		
+	}
+	
+	/**
+	 * This test tests if the method returns IllegalArgumentException if the id belongs to a meeting happening in the future;
+	 */
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void getFutureMeetingException () {
+		
+		final int id = 1;
+		date.set(2015, Calendar.APRIL, 15);
+		
+		FutureMeeting futureMeeting = new FutureMeetingImpl (id,date, new HashSet ()); 
+		
+		try{
+		testContactManager.getFutureMeeting(id);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
