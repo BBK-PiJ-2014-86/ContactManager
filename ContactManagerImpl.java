@@ -91,12 +91,21 @@ public class ContactManagerImpl implements ContactManager{
 	}
 	
 	/**
-	 * This method takes a PastMeeting object and adds it to the ContactManager. 
+	 * This method takes a PastMeeting object and adds it to the ContactManager Implementation.
 	 * @param PastMeeting 
 	 */
 	
 	public void addNewPastMeeting (PastMeeting pastmeeting) {
 
+		
+	}
+	
+	/**
+	 * This method takes a FutureMeeting object and adds it to the ContractManager Implementation
+	 * @param FutureMeeting futureMeeting
+	 */
+	
+	public void addNewFutureMeeting (FutureMeeting futureMeeting) {
 		
 	}
 	
