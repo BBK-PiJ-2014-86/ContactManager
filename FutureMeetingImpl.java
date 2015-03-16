@@ -8,6 +8,19 @@ public class FutureMeetingImpl implements FutureMeeting {
 	private int id;
 	private Calendar date;
 	private Set <Contact> contacts;
+	
+	/**
+	 * 
+	 * @param int id sets id of the meeting
+	 * @param Calendar date sets the date of the meeting
+	 * @param Set <Contact> sets the set of contact in the particular FutureMeeting instance
+	 */
+	
+	public FutureMeetingImpl (int id, Calendar date, Set<Contact> contacts){
+		this.id = id;
+		this.date = date;
+		this.contacts = contacts;
+	}
 
 	@Override
 	public int getId() {
