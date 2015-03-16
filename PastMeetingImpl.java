@@ -8,6 +8,22 @@ public class PastMeetingImpl implements PastMeeting{
 	private int id;
 	private Calendar date;
 	private Set <Contact> contacts;
+	
+	/**
+	 * Constructor
+	 * @param int id - sets the id of the meeting
+	 * @param Caledar date - sets the date of the meeting
+	 * @param Set <Contact> contacts - sets the a set of contacts.
+	 * 
+	 */
+	
+	public PastMeetingImpl (int id, Calendar date, Set <Contact> contacts) {
+		
+		this.id = id;
+		this.date = date;
+		this.contacts = contacts;
+		
+	}
 
 	@Override
 	public int getId() {
