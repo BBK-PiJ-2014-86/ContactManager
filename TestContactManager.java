@@ -85,12 +85,22 @@ public class TestContactManager {
 		testContactManager.addFutureMeeting(contacts, date);
 	}
 	
+	/**
+	 * This test tests the normal case of the getPastMeeting method
+	 */
+	
 	@Test 
 	
 	public void getPastMeetingNormalCase () {
 		
-		testContactManager.
+		final int id = 1;
 		
+		date.set(2015, Calendar.JUNE,9);
+		PastMeeting pastMeeting = new PastMeetingImpl (id,date,new HashSet ());
+		ContactManagerImpl contactManager = new ContactManagerImpl ();
+		contactManager.addNewPastMeeting(pastMeeting);
+		
+		assertEquals(pastMeeting, contactManager.getPastMeeting(id));
 		
 	}
 	
