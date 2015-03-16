@@ -40,7 +40,14 @@ public class TestContactManager {
 		testContactManager.addNewContact("Marcus Eoin", "Interview");
 		contacts.add(new ContactImpl (1, "Michael Sandison"));
 		date.set(2015, Calendar.JUNE, 9);
+		
+		try {
+			
 		testContactManager.addFutureMeeting(contacts, date);
+		
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -54,7 +61,11 @@ public class TestContactManager {
 		testContactManager.addNewContact("Marcus Eoin", "Interview");
 		contacts.add(new ContactImpl (1, "Marcus Eoin"));
 		date.set(2014, Calendar.JUNE, 9);
+		try {
 		testContactManager.addFutureMeeting(contacts, date);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -82,7 +93,12 @@ public class TestContactManager {
 		
 		testContactManager.addNewContact("Marcus Eoin", "Interview");
 		date.set(2015, Calendar.JUNE, 9);
+		
+		try {		
 		testContactManager.addFutureMeeting(contacts, date);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -114,6 +130,19 @@ public class TestContactManager {
 		
 		final int id = 4;
 		assertEquals (testContactManager.getPastMeeting(4), null); // there isn't a PastMeeting with id = 4 so this must return null.
+		
+	}
+	
+	/**
+	 * This test tests if the method returns IllegalArgumentException if the id belongs to a meeting happening in the future;
+	 */
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void getPastMeetingException () {
+		
+		final int id = 1;
+		
+		
 		
 	}
 
