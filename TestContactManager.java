@@ -104,6 +104,17 @@ public class TestContactManager {
 		
 	}
 	
+	/**
+	 * This test tests if the method returns null if id is not found.
+	 */
 	
+	@Test 
+	
+	public void getPastMeetingNull () {
+		
+		final int id = 4;
+		assertEquals (testContactManager.getPastMeeting(4), null); // there isn't a PastMeeting with id = 4 so this must return null.
+		
+	}
 
 }
