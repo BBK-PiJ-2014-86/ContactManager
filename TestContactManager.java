@@ -202,5 +202,28 @@ public class TestContactManager {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * This test tests the normal case.
+	 */
+	
+	@Test
+	
+	public void getMeetingNormal () {
+		
+		final int id = 1;
+		date.set(2014, Calendar.JUNE,9);
+		ContactManagerImpl contactManager = new ContactManagerImpl(); 
+		PastMeetingImpl pastMeeting = new PastMeetingImpl (id,date,new HashSet());
+		
+		contactManager.addNewPastMeeting(pastMeeting);
+		
+		assertEquals(pastMeeting,contactManager.getMeeting(id));
+		
+	}
+	
+	
+	
+	
 
 }
