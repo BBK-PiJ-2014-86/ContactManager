@@ -14,9 +14,9 @@ public class TestContactManager {
 
 	private ContactManager testContactManager;
 	private Set <Contact> contacts;
-	private final Calendar date;
-	Contact 
+	private Calendar date;
 	
+
 	/**
 	 * Initialising fields in Before to implement before starting 
 	 */
@@ -25,6 +25,7 @@ public class TestContactManager {
 		testContactManager = new ContactManagerImpl();
 		contacts = new HashSet();
 		date = Calendar.getInstance();
+	
 		
 	}
 	
@@ -82,6 +83,15 @@ public class TestContactManager {
 		testContactManager.addNewContact("Marcus Eoin", "Interview");
 		date.set(2015, Calendar.JUNE, 9);
 		testContactManager.addFutureMeeting(contacts, date);
+	}
+	
+	@Test 
+	
+	public void getPastMeetingNormalCase () {
+		
+		testContactManager.
+		
+		
 	}
 	
 	
