@@ -90,5 +90,17 @@ public class ContactManagerImpl implements ContactManager{
 		
 	}
 	
+	/**
+	 * This method takes a PastMeeting object and adds it to the ContactManager. 
+	 * @param PastMeeting 
+	 */
+	
+	public void addNewPastMeeting (PastMeeting pastmeeting) {
+	
+		
+	}
+	
+	
+	
 
 }
