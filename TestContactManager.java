@@ -141,9 +141,15 @@ public class TestContactManager {
 	public void getPastMeetingException () {
 		
 		final int id = 1;
+		date.set(2015, Calendar.APRIL, 15);
 		
+		FutureMeeting futureMeeting = new FutureMeetingImpl (id,date, new HashSet ()); 
 		
-		
+		try{
+		testContactManager.getPastMeeting(id);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
