@@ -279,17 +279,61 @@ public class TestContactManager {
 		contactManager.addNewFutureMeeting(fMeeting2);
 		contactManager.addNewFutureMeeting(fMeeting3);
 		
-		// Test if all elements are contained and that it is in the correct order.
+		// Test if all elements are contained
 		
 		assertTrue(meetingList.containsAll(contactManager.getFutureMeetingList(contact)));
+	}
+	
+	/**
+	 * This test tests whether getFutureMeetingList () method which returns list of future meetings in the correct order.
+	 */
+	
+	@Test
+	
+	public void getFutureMeetingListCorrectOrder () {
+		
+		final Calendar date1 = Calendar.getInstance(); date1.set(2015, Calendar.AUGUST, 3); // 3rd August 2015
+		final Calendar date2 = Calendar.getInstance(); date2.set(2015,Calendar.JULY,19); // 19th July 2015
+		final Calendar date3 = Calendar.getInstance(); date3.set(2015, Calendar.DECEMBER,24); //24th December 2015
+		final int meetingID1 = 1;
+		final int meetingID2 = 2;
+		final int meetingID3 = 3;
+		
+		//create a Contact that I will look for and put the contact in a Set implementation of a hashset.
+		
+		final String name = "Michael Eoin";
+		final Contact contact = new ContactImpl (1,name);
+		final Set <Contact> contactList = new HashSet(); 
+		contactList.add(contact);
+		
+		// Create 3 future Meetings with created Contact Set
+		
+		final FutureMeeting fMeeting1 = new FutureMeetingImpl (meetingID1, date1, contactList);
+		final FutureMeeting fMeeting2 = new FutureMeetingImpl (meetingID2, date2, contactList);
+		final FutureMeeting fMeeting3 = new FutureMeetingImpl (meetingID3, date3, contactList);
+		
+		// Create ArrayList that will store the Meetings in chronological order.
+		
+		final List <Meeting> meetingList = new ArrayList <Meeting> ();
+		meetingList.add(0, fMeeting2);
+		meetingList.add(1,fMeeting1);
+		meetingList.add(2,fMeeting3);
+		
+		// Add the FutureMeetings objects to the ContactManager
+		
+		final ContactManagerImpl contactManager = new ContactManagerImpl ();
+		contactManager.addNewFutureMeeting(fMeeting1);
+		contactManager.addNewFutureMeeting(fMeeting2);
+		contactManager.addNewFutureMeeting(fMeeting3);
+		
+		// Test if all elements are contained and that it is in the correct order.
+		
+		
 		assertEquals(meetingList.get(0), contactManager.getFutureMeetingList(contact).get(0));
 		assertEquals(meetingList.get(1), contactManager.getFutureMeetingList(contact).get(1));
 		assertEquals(meetingList.get(2), contactManager.getFutureMeetingList(contact).get(2));
 		
 	}
-	
-	
-	
 	
 	
 	
