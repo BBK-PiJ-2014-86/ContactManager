@@ -482,6 +482,21 @@ public class TestContactManager {
 		
 	}
 	
+	/**
+	 * This test confirms that elements that are not found 
+	 */
+	
+	@Test
+	
+	public void getFutureMeetingListNoDateFound () {
+		
+		date.set(2015, Calendar.APRIL, 15,11,0);
+		
+		assertTrue(testContactManager.getFutureMeetingList(date).isEmpty());
+		
+	}
+	
+	
 	
 	
 	
