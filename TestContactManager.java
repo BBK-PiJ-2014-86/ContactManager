@@ -335,6 +335,75 @@ public class TestContactManager {
 		
 	}
 	
+	/**
+	 * This test test whether getFutureMeetingList () method returns a list free of duplicates
+	 */
+	
+	@Test
+	
+	public void getFutureMeetingListDuplicatesTest () {
+	
+		final Calendar date1 = Calendar.getInstance(); date1.set(2015, Calendar.AUGUST, 3); // 3rd August 2015
+		final Calendar date2 = Calendar.getInstance(); date2.set(2015,Calendar.JULY,19); // 19th July 2015
+		final Calendar date3 = Calendar.getInstance(); date3.set(2015, Calendar.DECEMBER,24); //24th December 2015
+		final int meetingID1 = 1;
+		final int meetingID2 = 2;
+		final int meetingID3 = 3;
+		
+		//Create a Contact that I will look for and put the contact in a Set implementation of a hashset.
+		
+		final String name = "Michael Eoin";
+		final Contact contact = new ContactImpl (1,name);
+		final Set <Contact> contactList = new HashSet(); 
+		contactList.add(contact);
+		
+		// Create 6 future Meetings with created Contact Set
+		
+		final FutureMeeting fMeeting1 = new FutureMeetingImpl (meetingID1, date1, contactList);
+		final FutureMeeting fMeeting2 = new FutureMeetingImpl (meetingID2, date2, contactList);
+		final FutureMeeting fMeeting3 = new FutureMeetingImpl (meetingID3, date3, contactList);
+		
+		// Create ArrayList that will store the Meetings in chronological order.
+		
+		final List <Meeting> meetingList = new ArrayList <Meeting> ();
+		meetingList.add(0, fMeeting2);
+		meetingList.add(1,fMeeting1);
+		meetingList.add(2,fMeeting3);
+		
+		
+		// Add the a few duplicate FutureMeetings objects to the ContactManager.
+		
+		final ContactManagerImpl contactManager = new ContactManagerImpl ();
+		contactManager.addNewFutureMeeting(fMeeting1);
+		contactManager.addNewFutureMeeting(fMeeting2);
+		contactManager.addNewFutureMeeting(fMeeting3);
+		contactManager.addNewFutureMeeting(fMeeting1);
+		contactManager.addNewFutureMeeting(fMeeting2);
+		
+		// The List meetingList should contain all elements and the assert method below would return true because it would have disregarded the duplicates
+		
+		assertTrue (meetingList.containsAll(contactManager.getFutureMeetingList(contact)));
+		
+		
+	}
+	
+	/**
+	 * This test test whether getFutureMeetingList () method returns empty list if the contact is not found/unknown
+	 */
+	
+	@Test
+	
+	public void getFutureMeetingListUnknownContactTest () {
+		
+		final String name = "Marcus Eoin";
+		final Contact contact = new ContactImpl (1,name);
+
+		assertTrue (testContactManager.getFutureMeetingList(contact).isEmpty());
+		
+	}
+	
+	
+	
 	
 	
 
