@@ -402,6 +402,59 @@ public class TestContactManager {
 		
 	}
 	
+	/**
+	 * This test tests the normal case for getFutureMeetingList
+	 */
+	
+	@Test
+	
+	public void getFutureMeetingListDNormalCase () {
+		
+		/*create a bunch of future meetings same date different times. 
+		add them to the Contact manager
+		add them to an ArrayList ordered chronologically
+		test contract manager with assert true
+		 */
+		
+		final Calendar date1 = Calendar.getInstance();
+		final Calendar date2 = Calendar.getInstance();
+		final Calendar date3 = Calendar.getInstance();
+		final Calendar date4 = Calendar.getInstance();
+		date1.set(2015, Calendar.APRIL, 15, 13, 30);
+		date2.set(2015, Calendar.APRIL, 15,11,0);
+		date3.set(2015,Calendar.APRIL,15,10,0);
+		date4.set(2015, Calendar.APRIL, 15);
+		
+		final FutureMeeting meeting1 = new FutureMeetingImpl (1, date1, contacts);
+		final FutureMeeting meeting2 = new FutureMeetingImpl (1, date2, contacts);
+		final FutureMeeting meeting3 = new FutureMeetingImpl (1, date3, contacts);
+		
+		final ContactManagerImpl contactMgmt = new ContactManagerImpl ();
+		
+		contactMgmt.addNewFutureMeeting(meeting1);
+		contactMgmt.addNewFutureMeeting(meeting2);
+		contactMgmt.addNewFutureMeeting(meeting3);
+		
+		List <FutureMeeting> list = new ArrayList();
+		list.add(0,meeting3);
+		list.add(1,meeting2);
+		list.add(2,meeting1);
+		
+		assertTrue(list.get(2).getDate().equals(contactMgmt.getFutureMeetingList(date4).get(2).getDate()));
+		
+	}
+	
+	/**
+	 * This test tests whether there are any duplicate elements returned
+	 */
+	
+	@Test 
+	
+	public void getFutureMeetingListNoDuplicates () {
+		
+		
+		
+	}
 	
 	
 	
