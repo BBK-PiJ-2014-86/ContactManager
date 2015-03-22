@@ -771,6 +771,28 @@ public class TestContactManager {
 			e.printStackTrace();
 		}	
 	}
+	
+	
+	/**
+	 * <b>Test Method</b>: void addNewPastMeeting (Set<Contact> contacts, Caledar date, String text).
+	 * <br>
+	 * <b>Test Scope</b>: Passes an empty contact list. By definition, it throws IllegalArgumentException  
+	 */
+	
+	@Test (expected = IllegalArgumentException.class)
+	
+	public void addNewPastMeetingEmptyContactListTest () {
+		
+		final String subject = "Discussion on dinosaurs";
+		date.set (1997, Calendar.JUNE, 14, 7, 30);
+		
+		try {
+			testContactManager.addNewPastMeeting(contacts, date, subject);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		
+	}
 			
 	
 	
