@@ -955,9 +955,53 @@ public class TestContactManager {
 		testContactManager.addMeetingNotes(0, text); // assume the meeting will be added at position 0 since it is the first meeting.
 		
 		assertEquals (text, testContactManager.getPastMeeting(0).getNotes());
+	}
+	
+	/**
+	 * <b>Test Method</b>: void addMeetingNotes(int id, String text);
+	 * <br>
+	 * <b>Test Scope</b>: Test non-existing meeting ID. Throws IllegalArgumentException
+	 */
+	
+	@Test (expected = IllegalArgumentException.class)
+	
+	public void addMeetingNotesUnknownId () {
+		
+		final String text = "Text";
+		
+		try {
+		testContactManager.addMeetingNotes(3, text); // there isn't a pastmeeting with ID 3 so this throws an Exception		
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
+	/**
+	 * <b>Test Method</b>: void addMeetingNotes(int id, String text);
+	 * <br>
+	 * <b>Test Scope</b>: Tries to pass the notes to meeting in the future which should throw an IllegalStateException 
+	 */
+	
+	@Test (expected = IllegalStateException.class)
+	
+	public void addMeetingNotesToFutureMeeting () {
+		
+		date.set(2015, Calendar.AUGUST, 5, 2, 13);
+		final String participantName = "AG";
+		testContactManager.addNewContact(participantName, "Project Manager");
+		Contact c = new ContactImpl (0, participantName);
+		contacts.add(c);
+		final int id = testContactManager.addFutureMeeting(contacts, date);
+		
+		try {
+			testContactManager.addMeetingNotes(id, "");
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+
 	
 	
 
