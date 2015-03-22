@@ -1129,7 +1129,25 @@ public class TestContactManager {
 		assertTrue ((name1.equals(name11)) && (name2.equals(name22)) && (name3.equals(name33)));
 	}
 	
+	/**
+	 * <b>Test Method</b>: Set<Contact> getContacts(int... ids);
+	 * <br>
+	 * <b>Test Scope</b>: NullPointerException
+	 */
 	
+	@Test (expected = NullPointerException.class)
+	
+	public void getContactsFromIdsNullArrayTest () {
+		
+		final int [] idArray = null;
+		
+		try {
+			testContactManager.getContacts(idArray);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	
 	
