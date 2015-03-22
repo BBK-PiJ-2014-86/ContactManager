@@ -746,6 +746,33 @@ public class TestContactManager {
 		
 	}
 	
+	/**
+	 * <b>Test Method</b>: void addNewPastMeeting (Set<Contact> contacts, Caledar date, String text).
+	 * <br>
+	 * <b>Test Scope</b>: Passes an contact list with an unknown contact. By definition, it throws IllegalArgumentException  
+	 */
+	
+	@Test (expected = IllegalArgumentException.class)
+	
+	public void addNewPastMeetingUnknownContactTest () {
+		
+		// Creating a contact to be added to the list to be passed. This contact is not in the contact manager at this point.
+		
+		final String participantName = "Ross Geller";
+		final String subject = "Discussion on dinosaurs";
+		final int id = 1;
+		date.set (1997, Calendar.JUNE, 14, 7, 30);
+		Contact participant = new ContactImpl(id, participantName);
+		contacts.add(participant);
+		
+		try {
+			testContactManager.addNewPastMeeting(contacts, date, subject);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}	
+	}
+			
+	
 	
 	
 	
