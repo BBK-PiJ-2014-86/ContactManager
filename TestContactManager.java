@@ -1121,10 +1121,10 @@ public class TestContactManager {
 		testContactManager.addNewContact(name3, "Should be 2");
 		
 		final Set <Contact> returnedSet = testContactManager.getContacts(0,1,2);
-		final String [] returnedArray = (String[]) returnedSet.toArray();
-		final String name11 = returnedArray[0];
-		final String name22 = returnedArray[1];
-		final String name33 = returnedArray[2];
+		final Contact [] returnedArray = (Contact[]) returnedSet.toArray();
+		final String name11 = returnedArray[0].getName();
+		final String name22 = returnedArray[1].getName();
+		final String name33 = returnedArray[2].getName();
 		
 		assertTrue ((name1.equals(name11)) && (name2.equals(name22)) && (name3.equals(name33)));
 	}
@@ -1149,6 +1149,59 @@ public class TestContactManager {
 		
 	}
 	
+	
+	/*
+	 * Test Set<Contact> getContacts(String name);
+	 * 1. Normal case
+	 * 2. NullPointerException
+	 */
+	
+	/**
+	 * <b>Test Method</b>: Set<Contact> getContacts(String name);
+	 * <br>
+	 * <b>Test Scope</b>: Normal Case
+	 */
+	
+	@Test 
+	
+	public void getContactsFromStringNormalCaseTest () {
+		
+		final String name1 = "John Doe";
+		final String name2 = "Jane Doe";
+		final String name3 = "Bob Dylan";
+		final String searchedString = "Doe";
+		
+		testContactManager.addNewContact(name1, "Needs to be renamed");
+		testContactManager.addNewContact(name2, "Needs to be renamed");
+		testContactManager.addNewContact(name3, "Singer");
+		
+		final Contact [] returnedArray = (Contact[]) testContactManager.getContacts(searchedString).toArray();
+		final String name11 = returnedArray[0].getName();
+		final String name22 = returnedArray[1].getName();
+
+		assertTrue ((name1.equals(name11)) && (name2.equals(name22)) && (returnedArray.length ==2));
+		
+	}
+	
+	/**
+	 * <b>Test Method</b>: Set<Contact> getContacts(String name);
+	 * <br>
+	 * <b>Test Scope</b>: NullPointerException
+	 */
+	
+	@Test (expected = NullPointerException.class)
+	
+	public void getContactsFromStringNullArrayTest () {
+		
+		final String search = null;
+		
+		try {
+			testContactManager.getContacts(search);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	
 	
