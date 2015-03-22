@@ -985,7 +985,7 @@ public class TestContactManager {
 	
 	@Test (expected = IllegalStateException.class)
 	
-	public void addMeetingNotesToFutureMeeting () {
+	public void addMeetingNotesToFutureMeetingTest () {
 		
 		date.set(2015, Calendar.AUGUST, 5, 2, 13);
 		final String participantName = "AG";
@@ -1001,7 +1001,59 @@ public class TestContactManager {
 		}	
 	}
 	
+	/**
+	 * <b>Test Method</b>: void addMeetingNotes(int id, String text);
+	 * <br>
+	 * <b>Test Scope</b>: Trying to pass null notes should throw NullPointerException
+	 */
 
+	@Test (expected = NullPointerException.class) 
+	
+	public void addMeetingNotesNullNotesTest () {
+		
+		final String nullNotes = null;
+		date.set(2014, Calendar.AUGUST, 5, 2, 13);
+		final String participantName = "AG";
+		testContactManager.addNewContact(participantName, "Project Manager");
+		Contact c = new ContactImpl (0, participantName);
+		contacts.add(c);
+		final int id = testContactManager.addFutureMeeting(contacts, date);
+		
+		try {
+			testContactManager.addMeetingNotes(id, nullNotes);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/*
+	 * Test for addNewContact (String name, String notes);
+	 * 1. Normal case.
+	 * 2. NullPointerException if name or notes are null
+	 */
+	
+	/**
+	 * <b>Test Method</b>: void addNewContact (String name, String notes);;
+	 * <br>
+	 * <b>Test Scope</b>: Normal case.
+	 */
+	
+	@Test
+	
+	public void addNewContactNormalCaseTest () {
+		
+		final String name = "AG";
+		final String notes = "Project Manager";
+		
+		testContactManager.addNewContact(name, notes);
+		
+		final Contact [] arrayC = (Contact[]) testContactManager.getContacts(name).toArray();
+		
+		assertEquals(name, arrayC[0].getName()); // this assumes the contact will be at possition 0 in the returned list
+		
+		
+	}
 	
 	
 
