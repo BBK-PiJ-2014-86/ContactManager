@@ -899,6 +899,40 @@ public class TestContactManager {
 	}
 	
 	
+	/*
+	 * Test of addMeetingNotes (int id, String text)
+	 * 
+	 * 1. Normal case1. A FutureMeeting will be created that needs to convert to PastMeeting and add notes to it.
+	 * 2. Normal case2. The contact manager should contain a past meeting. We find the id of the past meeting
+	 * and pass the notes through the method. For the test, we have to find the meeting, get the notes from the meeting
+	 * and compare them to the text added previously
+	 * 3. Non existing meeting id -> IllegalArgumentException
+	 * 4. FutureMeeting -> IllegalStateException
+	 * 5. Null notes -> NullPointerException
+	 */
+	
+	/**
+	 * <b>Test Method</b>: void addMeetingNotes(int id, String text);
+	 * <br>
+	 * <b>Test Scope</b>: A FutureMeeting will be created that needs to convert to PastMeeting and add notes to it.
+	 * @throws InterruptedException 
+	 */
+	
+	@Test 
+	
+	public void addMeetingNotesFutureToPastConversionNormalCaseTest () throws InterruptedException {
+		
+		 final String text = "The meeting was a waste of time!";	
+		 date.add(Calendar.MILLISECOND, 2000); // the date is initialised to the present and this makes it 2 seconds in the future and pass it below
+		 final int id = testContactManager.addFutureMeeting(contacts, date);
+		 Thread.sleep(3000); // wait enough to have it converted to past meeting. 
+		 
+		 testContactManager.addMeetingNotes(id, text);
+		 
+		 assertEquals (text, testContactManager.getPastMeeting(id).getNotes()); 
+		 
+	}
+	
 	
 	
 
