@@ -146,7 +146,7 @@ public class TestContactManager {
 		final int id = 1;
 		date.set(2014, Calendar.APRIL, 15);
 		
-		FutureMeeting futureMeeting = new FutureMeetingImpl (id,date, contacts); 
+		PastMeeting futureMeeting = new PastMeetingImpl (id,date, contacts); 
 		
 		try{
 		testContactManager.getPastMeeting(id);
@@ -452,6 +452,10 @@ public class TestContactManager {
 	
 	public void getFutureMeetingListNoDuplicates () {
 		
+		/*
+		 * Create date and 5 meetings with 2 duplicates in them. Then using AssertTrue we check that only 3 of these are returned because the other 2 are duplicates.
+		 */
+		
 		final Calendar date1 = Calendar.getInstance();
 		final Calendar date2 = Calendar.getInstance();
 		final Calendar date3 = Calendar.getInstance();
@@ -473,11 +477,6 @@ public class TestContactManager {
 		contactMgmt.addNewFutureMeeting(meeting3);
 		contactMgmt.addNewFutureMeeting(meeting2);
 		
-		List <FutureMeeting> list = new ArrayList();
-		list.add(0,meeting3);
-		list.add(1,meeting2);
-		list.add(2,meeting1);
-		
 		assertTrue((contactMgmt.getFutureMeetingList(date4).size()==3));
 		
 	}
@@ -495,6 +494,174 @@ public class TestContactManager {
 		assertTrue(testContactManager.getFutureMeetingList(date).isEmpty());
 		
 	}
+	
+	/**
+	 * This test tests the normal case of getFutureMeetingList () method which returns list of future meetings scheduled with this contact.
+	 */
+	
+	@Test
+	
+	public void getPastMeetingListNormal () {
+		
+		final Calendar date1 = Calendar.getInstance(); date1.set(2014, Calendar.AUGUST, 3); // 3rd August 2014
+		final Calendar date2 = Calendar.getInstance(); date2.set(2014,Calendar.JULY,19); // 19th July 2014
+		final Calendar date3 = Calendar.getInstance(); date3.set(2014, Calendar.DECEMBER,24); //24th December 2014
+		final int meetingID1 = 1;
+		final int meetingID2 = 2;
+		final int meetingID3 = 3;
+		
+		//create a Contact that I will look for and put the contact in a Set implementation of a hashset.
+		
+		final String name = "Michael Eoin";
+		final Contact contact = new ContactImpl (1,name);
+		final Set <Contact> contactList = new HashSet(); 
+		contactList.add(contact);
+		
+		// Create 3 past Meetings with created Contact Set
+		
+		final PastMeeting pMeeting1 = new PastMeetingImpl (meetingID1, date1, contactList);
+		final PastMeeting pMeeting2 = new PastMeetingImpl (meetingID2, date2, contactList);
+		final PastMeeting pMeeting3 = new PastMeetingImpl (meetingID3, date3, contactList);
+		
+		// Create ArrayList that will store the Meetings in chronological order.
+		
+		final List <Meeting> meetingList = new ArrayList <Meeting> ();
+		meetingList.add(0, pMeeting2);
+		meetingList.add(1,pMeeting1);
+		meetingList.add(2,pMeeting3);
+		
+		// Add the PastMeeting objects to the ContactManager
+		
+		final ContactManagerImpl contactManager = new ContactManagerImpl ();
+		contactManager.addNewPastMeeting(pMeeting1);
+		contactManager.addNewPastMeeting(pMeeting2);
+		contactManager.addNewPastMeeting(pMeeting3);
+		
+		// Test if all elements are contained
+		
+		assertTrue(meetingList.containsAll(contactManager.getPastMeetingList(contact)));
+	}
+	
+	/**
+	 * This test tests whether getPastMeetingList () method which returns list of future meetings in the correct order.
+	 */
+	
+	@Test
+	
+	public void getPastMeetingListCorrectOrder () {
+		
+		final Calendar date1 = Calendar.getInstance(); date1.set(2014, Calendar.AUGUST, 3); // 3rd August 2014
+		final Calendar date2 = Calendar.getInstance(); date2.set(2014,Calendar.JULY,19); // 19th July 2014
+		final Calendar date3 = Calendar.getInstance(); date3.set(2014, Calendar.DECEMBER,24); //24th December 2014
+		final int meetingID1 = 1;
+		final int meetingID2 = 2;
+		final int meetingID3 = 3;
+		
+		//create a Contact that I will look for and put the contact in a Set implementation of a hashset.
+		
+		final String name = "Michael Eoin";
+		final Contact contact = new ContactImpl (1,name);
+		final Set <Contact> contactList = new HashSet(); 
+		contactList.add(contact);
+		
+		// Create 3 past Meetings with created Contact Set
+		
+		final PastMeeting pMeeting1 = new PastMeetingImpl (meetingID1, date1, contactList);
+		final PastMeeting pMeeting2 = new PastMeetingImpl (meetingID2, date2, contactList);
+		final PastMeeting pMeeting3 = new PastMeetingImpl (meetingID3, date3, contactList);
+		
+		// Create ArrayList that will store the Meetings in chronological order.
+		
+		final List <Meeting> meetingList = new ArrayList <Meeting> ();
+		meetingList.add(0, pMeeting2);
+		meetingList.add(1,pMeeting1);
+		meetingList.add(2,pMeeting3);
+		
+		// Add the PastMeeting objects to the ContactManager
+		
+		final ContactManagerImpl contactManager = new ContactManagerImpl ();
+		contactManager.addNewPastMeeting(pMeeting1);
+		contactManager.addNewPastMeeting(pMeeting2);
+		contactManager.addNewPastMeeting(pMeeting3);
+		
+		// Test if all elements are contained and that it is in the correct order.
+		
+		
+		assertEquals(meetingList.get(0), contactManager.getPastMeetingList(contact).get(0));
+		assertEquals(meetingList.get(1), contactManager.getPastMeetingList(contact).get(1));
+		assertEquals(meetingList.get(2), contactManager.getPastMeetingList(contact).get(2));
+		
+	}
+	
+	/**
+	 * This test test whether getPastMeetingList () method returns a list free of duplicates
+	 */
+	
+	@Test
+	
+	public void getPastMeetingListDuplicatesTest () {
+	
+		final Calendar date1 = Calendar.getInstance(); date1.set(2014, Calendar.AUGUST, 3); // 3rd August 2014
+		final Calendar date2 = Calendar.getInstance(); date2.set(2014,Calendar.JULY,19); // 19th July 2014
+		final Calendar date3 = Calendar.getInstance(); date3.set(2014, Calendar.DECEMBER,24); //24th December 2014
+		final int meetingID1 = 1;
+		final int meetingID2 = 2;
+		final int meetingID3 = 3;
+		
+		//Create a Contact that I will look for and put the contact in a Set implementation of a hashset.
+		
+		final String name = "Michael Eoin";
+		final Contact contact = new ContactImpl (1,name);
+		final Set <Contact> contactList = new HashSet(); 
+		contactList.add(contact);
+		
+		// Create 3 past Meetings with created Contact Set
+		
+		final PastMeeting pMeeting1 = new PastMeetingImpl (meetingID1, date1, contactList);
+		final PastMeeting pMeeting2 = new PastMeetingImpl (meetingID2, date2, contactList);
+		final PastMeeting pMeeting3 = new PastMeetingImpl (meetingID3, date3, contactList);
+		
+		// Create ArrayList that will store the Meetings in chronological order.
+		
+		final List <Meeting> meetingList = new ArrayList <Meeting> ();
+		meetingList.add(0, pMeeting2);
+		meetingList.add(1,pMeeting1);
+		meetingList.add(2,pMeeting3);
+		
+		
+		// Add the a few duplicate FutureMeetings objects to the ContactManager.
+		
+		final ContactManagerImpl contactManager = new ContactManagerImpl ();
+		contactManager.addNewPastMeeting(pMeeting1);
+		contactManager.addNewPastMeeting(pMeeting2);
+		contactManager.addNewPastMeeting(pMeeting3);
+		contactManager.addNewPastMeeting(pMeeting1);
+		contactManager.addNewPastMeeting(pMeeting2);
+		
+		// The List meetingList should contain all elements and the assert method below would return true because it would have disregarded the duplicates
+		
+		assertTrue (meetingList.containsAll(contactManager.getPastMeetingList(contact)));
+		
+		
+	}
+	
+	/**
+	 * This test test whether getPastMeetingList () method returns empty list if the contact is not found/unknown
+	 */
+	
+	@Test
+	
+	public void getPastMeetingListUnknownContactTest () {
+		
+		final String name = "Marcus Eoin";
+		final Contact contact = new ContactImpl (1,name);
+
+		assertTrue (testContactManager.getPastMeetingList(contact).isEmpty());
+		
+	}
+	
+	
+	
 	
 	
 	
