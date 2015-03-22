@@ -1096,6 +1096,41 @@ public class TestContactManager {
 	}
 	
 	
+	/*
+	 * Test for Set<Contact> getContacts(int... ids);
+	 * 1. Normal case.
+	 * 2. NullPointerException if parameter is null
+	 */
+	
+	/**
+	 * <b>Test Method</b>: Set<Contact> getContacts(int... ids);
+	 * <br>
+	 * <b>Test Scope</b>: Normal Case
+	 */
+	
+	@Test 
+	
+	public void getContactsFromIdsNormalCaseTest () {
+		
+		final String name1 = "Rob Brown";
+		final String name2 = "Sean Booth";
+		final String name3 = "Richard James";
+		
+		testContactManager.addNewContact(name1, "Should be 0");
+		testContactManager.addNewContact(name2, "Should be 1");
+		testContactManager.addNewContact(name3, "Should be 2");
+		
+		final Set <Contact> returnedSet = testContactManager.getContacts(0,1,2);
+		final String [] returnedArray = (String[]) returnedSet.toArray();
+		final String name11 = returnedArray[0];
+		final String name22 = returnedArray[1];
+		final String name33 = returnedArray[2];
+		
+		assertTrue ((name1.equals(name11)) && (name2.equals(name22)) && (name3.equals(name33)));
+	}
+	
+	
+	
 	
 	
 	
