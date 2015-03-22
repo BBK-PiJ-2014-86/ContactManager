@@ -942,6 +942,13 @@ public class TestContactManager {
 	@Test
 	
 	public void addMeetingNotesPastMeetingNormalCaseTest () {
+		
+		date.set(2014, Calendar.AUGUST, 5, 2, 13);
+		final String participantName = "TP";
+		testContactManager.addNewContact(participantName, "");
+		Contact c = new ContactImpl (0, participantName);
+		contacts.add(c);
+		
 				
 		testContactManager.addNewPastMeeting(contacts, date, "to be overwritten by something cleverer");
 		final String text = "\"The trouble with having an open mind, of course, is that people will insist on coming along and trying to put things in it.\" Terry Pratchett";
