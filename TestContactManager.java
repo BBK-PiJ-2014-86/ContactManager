@@ -1052,8 +1052,51 @@ public class TestContactManager {
 		
 		assertEquals(name, arrayC[0].getName()); // this assumes the contact will be at possition 0 in the returned list
 		
+	}
+	
+	/**
+	 * <b>Test Method</b>: void addNewContact (String name, String notes);;
+	 * <br>
+	 * <b>Test Scope</b>: Throws NullPointerException when contact name is null.
+	 */
+	
+	@Test (expected = NullPointerException.class)
+	
+	public void addNewContactNullNameTest () {
+		
+		final String notes = "Project Manager";
+		
+		try {
+		testContactManager.addNewContact(null, notes);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 		
 	}
+	
+	
+	/**
+	 * <b>Test Method</b>: void addNewContact (String name, String notes);;
+	 * <br>
+	 * <b>Test Scope</b>: Throws NullPointerException when notes is null.
+	 */
+	
+	@Test (expected = NullPointerException.class)
+	
+	public void addNewContactNullNotesTest () {
+		
+		final String name = "AG";
+		
+		try {
+		testContactManager.addNewContact(name, null);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
 	
 	
 
