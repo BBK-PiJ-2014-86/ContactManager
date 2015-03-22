@@ -793,6 +793,28 @@ public class TestContactManager {
 		}
 		
 	}
+	
+	/**
+	 * <b>Test Method</b>: void addNewPastMeeting (Set<Contact> contacts, Caledar date, String text).
+	 * <br>
+	 * <b>Test Scope</b>: Passes a null String object.
+	 */
+	
+	@Test (expected = NullPointerException.class)
+	
+	public void addNewPastMeetingNullStringTest () {
+		
+		final String subject = null;
+		date.set (1997, Calendar.JUNE, 14, 7, 30);
+		
+		try {
+			testContactManager.addNewPastMeeting(contacts, date, subject);
+			
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		
+	}
 			
 	
 	
