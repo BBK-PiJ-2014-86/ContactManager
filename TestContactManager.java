@@ -1203,6 +1203,20 @@ public class TestContactManager {
 		
 	}
 	
+	/*
+	 * Test flush () 
+	 * This method must be executed when the program is
+	 * closed and when/if the user requests it.
+	 * Create a File object where I will store 
+	 */
+	
+	@Test 
+	public void flushNormalTest () {
+		
+		
+		
+	}
+	
 	
 	
 
