@@ -922,7 +922,7 @@ public class TestContactManager {
 	
 	public void addMeetingNotesFutureToPastConversionNormalCaseTest () throws InterruptedException {
 		
-		 final String text = "The meeting was a waste of time!";	
+		 final String text = "The meeting was quite short!";	
 		 date.add(Calendar.MILLISECOND, 2000); // the date is initialised to the present and this makes it 2 seconds in the future and pass it below
 		 final int id = testContactManager.addFutureMeeting(contacts, date);
 		 Thread.sleep(3000); // wait enough to have it converted to past meeting. 
@@ -931,6 +931,24 @@ public class TestContactManager {
 		 
 		 assertEquals (text, testContactManager.getPastMeeting(id).getNotes()); 
 		 
+	}
+	
+	/**
+	 * <b>Test Method</b>: void addMeetingNotes(int id, String text);
+	 * <br>
+	 * <b>Test Scope</b>: Add notes to pastMeeting
+	 */
+	
+	@Test
+	
+	public void addMeetingNotesPastMeetingNormalCaseTest () {
+				
+		testContactManager.addNewPastMeeting(contacts, date, "to be overwritten by something cleverer");
+		final String text = "\"The trouble with having an open mind, of course, is that people will insist on coming along and trying to put things in it.\" Terry Pratchett";
+		testContactManager.addMeetingNotes(0, text); // assume the meeting will be added at position 0 since it is the first meeting.
+		
+		assertEquals (text, testContactManager.getPastMeeting(0).getNotes());
+		
 	}
 	
 	
