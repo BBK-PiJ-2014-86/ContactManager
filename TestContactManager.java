@@ -31,9 +31,12 @@ public class TestContactManager {
 		date = Calendar.getInstance();
 
 	}
+
 	
 	/**
-	 * This test ensures that IllegalArgumentException is thrown if the contact in parameter passed to addFurureMeeting method is unknown.
+	 * <b> Test Method </b>: int addFutureMeeting (Set<Contact> contacts, Calendar date)
+	 * <br>
+	 * <b> Test Scope</b>: This test ensures that IllegalArgumentException is thrown if the contact in parameter passed to addFurureMeeting method is unknown.
 	 */
 	
 	@Test (expected= IllegalArgumentException.class)
@@ -54,7 +57,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test checks if IllegalArgumentException is thrown if the date passed to addFurureMeeting method is not in the future.
+	 * <b> Test Method </b>: int addFutureMeeting (Set<Contact> contacts, Calendar date)
+	 * <br>
+	 * <b> Test Scope </b>: This test checks if IllegalArgumentException is thrown if the date passed to addFurureMeeting method is not in the future.
 	 */
 	
 	@Test (expected= IllegalArgumentException.class)
@@ -72,7 +77,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test checks the normal case. 
+	 * <b> Test Method </b>: int addFutureMeeting (Set<Contact> contacts, Calendar date)
+	 * <br>
+	 * <b> Test Scope </b>: This test checks the normal case.
 	 */
 	
 	@Test
@@ -81,12 +88,13 @@ public class TestContactManager {
 		
 		testContactManager.addNewContact("Marcus Eoin", "Interview");
 		contacts.add(new ContactImpl (1, "Marcus Eoin"));
-		int id = testContactManager.addFutureMeeting(contacts, date);
-		assertEquals(testContactManager.getFutureMeeting(id).getId(),id);
+		int id = testContactManager.addFutureMeeting(contacts, date); // Capturing the id from adding the future meeting. 
+		assertEquals(testContactManager.getFutureMeeting(id).getId(),id); // Comparing the captured id in var <b>id</b> to the returned id from calling getFutureMeeting(id).
 	}
 	
 	
 	/**
+	 * 
 	 * This test ensures that IllegalArgumentException is thrown if the Set passed as a parameter is null.
 	 */
 	
@@ -105,7 +113,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test tests the normal case of the getPastMeeting method
+	 * <b> Test Method </b>: PastMeeting getPastMeeting(int id);
+	 * <br>
+	 * <b> Test Scope </b>: This test tests the normal case of the getPastMeeting method
 	 */
 	
 	@Test 
@@ -124,7 +134,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test tests if the method returns null if id is not found.
+	 * <b> Test Method </b>: PastMeeting getPastMeeting(int id);
+	 * <br>
+	 * <b> Test Scope </b>: This test tests if the method returns null if id is not found.
 	 */
 	
 	@Test 
@@ -137,7 +149,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test tests if the method returns IllegalArgumentException if the id belongs to a meeting happening in the future;
+	 * <b> Test Method </b>: PastMeeting getPastMeeting(int id);
+	 * <br>
+	 * <b> Test Scope </b> This test tests if the method returns IllegalArgumentException if the id belongs to a meeting happening in the future;
 	 */
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -156,7 +170,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test tests the normal case of the getPastMeeting method
+	 * <b> Test Method </b>: FutureMeeting getFutureMeeting(int id);
+	 * <br>
+	 * <b> Test Scope </b>:This test tests the normal case
 	 */
 	
 	@Test 
@@ -170,12 +186,14 @@ public class TestContactManager {
 		ContactManagerImpl contactManager = new ContactManagerImpl ();
 		contactManager.addNewFutureMeeting(futureMeeting);
 		
-		assertEquals(futureMeeting, contactManager.getPastMeeting(id));
+		assertEquals(futureMeeting, contactManager.getFutureMeeting(id));
 		
 	}
 	
 	/**
-	 * This test tests if the method returns null if id is not found.
+	 * <b> Test Method </b>: FutureMeeting getFutureMeeting(int id);
+	 * <br>
+	 * <b> Test Scope </b>: This test tests if the method returns null if id is not found.
 	 */
 	
 	@Test 
@@ -188,7 +206,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test tests if the method returns IllegalArgumentException if the id belongs to a meeting happening in the future;
+	 * <b> Test Method </b>: FutureMeeting getFutureMeeting(int id);
+	 * <br>
+	 * <b> Test Scope </b>: This test tests if the method returns IllegalArgumentException if the id belongs to a meeting happening in the future;
 	 */
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -207,7 +227,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test tests the normal case.
+	 * <b> Test Method </b>: Meeting getMeeting(int id);
+	 * <br>
+	 * <b> Test Scope </b>: This test tests the normal case.
 	 */
 	
 	@Test
@@ -226,7 +248,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test tests invalid id. According to interface, it has to return null.
+	 * <b> Test Method </b>: Meeting getMeeting(int id);
+	 * <br>
+	 * <b> Test Scope </b>: This test tests invalid id. According to interface, it has to return null.
 	 */
 	
 	@Test
@@ -238,7 +262,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test tests the normal case of getFutureMeetingList () method which returns list of future meetings scheduled with this contact.
+	 * <b> Test Method </b>: List<Meeting> getFutureMeetingList(Contact contact);
+	 * <br>
+	 * <b> Test Scope </b>: This test tests the normal case of getFutureMeetingList () method which returns list of future meetings scheduled with this contact.
 	 */
 	
 	@Test
@@ -285,7 +311,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test tests whether getFutureMeetingList () method which returns list of future meetings in the correct order.
+	 * <b> Test Method </b>: List<Meeting> getFutureMeetingList(Contact contact);
+	 * <br>
+	 * <b> Test Scope </b>: This test tests whether getFutureMeetingList () method which returns list of future meetings in the correct order.
 	 */
 	
 	@Test
@@ -336,7 +364,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test test whether getFutureMeetingList () method returns a list free of duplicates
+	 * <b> Test Method </b>: List<Meeting> getFutureMeetingList(Contact contact);
+	 * <br>
+	 * <b> Test Scope </b>: This test test whether getFutureMeetingList () method returns a list free of duplicates
 	 */
 	
 	@Test
@@ -388,7 +418,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test test whether getFutureMeetingList () method returns empty list if the contact is not found/unknown
+	 * <b> Test Method </b>: List<Meeting> getFutureMeetingList(Contact contact);
+	 * <br>
+	 * <b> Test Scope </b>: This test test whether getFutureMeetingList () method returns empty list if the contact is not found/unknown
 	 */
 	
 	@Test
@@ -403,7 +435,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test tests the normal case for getFutureMeetingList
+	 * <b> Test Method </b>: List<Meeting> getFutureMeetingList(Calendar date);
+	 * <br>
+	 * <b> Test Scope </b>: This test tests the normal case for getFutureMeetingList
 	 */
 	
 	@Test
@@ -445,7 +479,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test tests whether there are any duplicate elements returned
+	 * <b> Test Method </b>: List<Meeting> getFutureMeetingList(Calendar date);
+	 * <br>
+	 * <b> Test Scope </b>: This test tests whether there are any duplicate elements returned
 	 */
 	
 	@Test 
@@ -482,7 +518,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test confirms that elements that are not found 
+	 * <b> Test Method </b>: List<Meeting> getFutureMeetingList(Calendar date);
+	 * <br>
+	 * <b> Test Scope </b>: This test confirms that elements that are not found 
 	 */
 	
 	@Test
@@ -496,7 +534,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test tests the normal case of getFutureMeetingList () method which returns list of future meetings scheduled with this contact.
+	 * <b> Test Method </b>: List<PastMeeting> getPastMeetingList(Contact contact);
+	 * <br>
+	 * <b> Test Scope </b>: This test tests the normal case of getFutureMeetingList () method which returns list of future meetings scheduled with this contact.
 	 */
 	
 	@Test
@@ -543,7 +583,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test tests whether getPastMeetingList () method which returns list of future meetings in the correct order.
+	 * <b> Test Method </b>: List<PastMeeting> getPastMeetingList(Contact contact);
+	 * <br>
+	 * <b> Test Scope </b>: This test tests whether getPastMeetingList () method which returns list of future meetings in the correct order.
 	 */
 	
 	@Test
@@ -594,7 +636,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test test whether getPastMeetingList () method returns a list free of duplicates
+	 * <b> Test Method </b>: List<PastMeeting> getPastMeetingList(Contact contact);
+	 * <br>
+	 * <b> Test Scope </b>: This test test whether getPastMeetingList () method returns a list free of duplicates
 	 */
 	
 	@Test
@@ -646,7 +690,9 @@ public class TestContactManager {
 	}
 	
 	/**
-	 * This test test whether getPastMeetingList () method returns empty list if the contact is not found/unknown
+	 * <b> Test Method </b>: List<PastMeeting> getPastMeetingList(Contact contact);
+	 * <br>
+	 * <b> Test Scope </b>: This test test whether getPastMeetingList () method returns empty list if the contact is not found/unknown
 	 */
 	
 	@Test
@@ -660,6 +706,20 @@ public class TestContactManager {
 		
 	}
 	
+	
+	/**
+	 * <b>Test Method</b>: addNewPastMeeting (Set<Contact> contacts, Caledar date, String text).
+	 * <br>
+	 * <b>Test Scope</b>: Normal Case. It will add a PastMeeting object and then verify it was added by finding it by the date in ContactManager.  
+	 */
+	
+	@Test 
+	
+	public void addNewPastMeetingNormalCase () {
+		
+		
+		
+	}
 	
 	
 	
