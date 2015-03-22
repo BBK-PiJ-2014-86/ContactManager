@@ -871,7 +871,32 @@ public class TestContactManager {
 		
 	}
 	
+	/**
+	 * <b>Test Method</b>: void addNewPastMeeting (Set<Contact> contacts, Caledar date, String text).
+	 * <br>
+	 * <b>Test Scope</b>: Tries to pass a future date and throws IllegalStateException
+	 */
 	
+	@Test (expected = IllegalStateException.class)
+	
+	public void addNewPastMeetingFutureDateTest () {
+		
+		final String subject =  "Discussion on dinosaurs";
+		final String participantName = "Ross Geller";
+		date.set(2015, Calendar.JUNE, 9, 10, 0);;
+		
+		testContactManager.addNewContact(participantName, ""); // add contact to the contact manager
+		contacts = testContactManager.getContacts(participantName);
+		
+		try {
+			testContactManager.addNewPastMeeting(contacts, date, subject);
+			
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
 	
 	
 	
