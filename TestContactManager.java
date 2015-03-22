@@ -804,8 +804,12 @@ public class TestContactManager {
 	
 	public void addNewPastMeetingNullStringTest () {
 		
-		final String subject = null;
+		final String subject =  null;
+		final String participantName = "Ross Geller";
 		date.set (1997, Calendar.JUNE, 14, 7, 30);
+		
+		testContactManager.addNewContact(participantName, ""); // add contact to the contact manager
+		contacts = testContactManager.getContacts(participantName);
 		
 		try {
 			testContactManager.addNewPastMeeting(contacts, date, subject);
@@ -838,6 +842,8 @@ public class TestContactManager {
 		}
 		
 	}
+	
+
 			
 	
 	
