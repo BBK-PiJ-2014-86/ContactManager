@@ -2,6 +2,13 @@ package ContactManager;
 
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -1208,10 +1215,35 @@ public class TestContactManager {
 	 * This method must be executed when the program is
 	 * closed and when/if the user requests it.
 	 * Create a File object where I will store 
+	 * Before and after flush? How to write or read from the file? it is private. 
 	 */
 	
 	@Test 
 	public void flushNormalTest () {
+		
+		final String contactName = "Bob Dylan";
+		final String contactNotes = "Like a Rolling Stone";
+		final ContactManagerImpl cm = new ContactManagerImpl ();
+		final File contactFile;
+		
+		cm.addNewContact(contactName, contactNotes);
+		
+		contactFile = cm.contactFileCopy();
+		
+		BufferedReader in;
+		
+		try {
+		in = new BufferedReader(new FileReader (contactFile));
+		
+		while ()
+		in.readLine();	
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		
