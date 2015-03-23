@@ -110,6 +110,15 @@ public class ContactManagerImpl implements ContactManager{
 		
 	}
 	
+	/**
+	 * 
+	 * @return a copy of the file where contacts are saved.
+	 */
+	
+	public File contactFileCopy ()  {
+		return null;
+	}
+	
 	
 	
 
