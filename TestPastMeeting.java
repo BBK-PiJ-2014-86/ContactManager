@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
@@ -36,6 +37,54 @@ public class TestPastMeeting {
 
 		PastMeeting meeting = new PastMeetingImpl (id, date, contactSet);
 		assertEquals(id,meeting.getId());
+		
+	}
+	
+	/**
+	 * <b> Test Method </b>: Calendar getDate();
+	 * <br>
+	 * <b> Test Scope</b>: gets the date of the meeting
+	 */
+	@Test
+	
+	public void getDateNormalCaseTest() {
+		
+		PastMeeting meeting = new PastMeetingImpl (id, date, contactSet);
+		assertEquals(date,meeting.getDate());
+		
+	}
+	
+	/**
+	 * <b> Test Method </b>: Set<Contact> getContacts();
+	 * <br>
+	 * <b> Test Scope</b>: gets the date of the meeting
+	 */
+	@Test
+	
+	public void getContactNormalCaseTest () {
+		
+		PastMeeting meeting = new PastMeetingImpl (id, date, contactSet);
+		assertEquals(contactSet,meeting.getContacts());
+		
+	}
+	
+	/**
+	 * <b> Test Method </b>: String getNotes();
+	 * <br>
+	 * <b> Test Scope</b>: gets the notes of the meeting
+	 */
+	@Test
+	
+	public void getNotesNormalCaseTest () {
+		
+		ContactManager CM = new ContactManagerImpl ();
+		CM.addNewPastMeeting(contactSet, date, "hello");
+		Contact [] con = (Contact[]) contactSet.toArray();
+		List<PastMeeting> meet = CM.getPastMeetingList(con[0]);//assume position 0
+		Contact cont = (Contact) meet.get(0); // assume position 0
+		
+		assertEquals("hello",cont.getNotes());
+		
 		
 	}
 	
