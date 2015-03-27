@@ -8,9 +8,11 @@ public class PastMeetingImpl implements PastMeeting{
 	private int id;
 	private Calendar date;
 	private Set <Contact> contacts;
+	private String notes;
 	
 	/**
-	 * Constructor
+	 * Constructor - passing id, Calendar date, Set contacts. Notes are an empty string. 
+	 * 
 	 * @param int id - sets the id of the meeting
 	 * @param Caledar date - sets the date of the meeting
 	 * @param Set <Contact> contacts - sets the a set of contacts.
@@ -22,31 +24,48 @@ public class PastMeetingImpl implements PastMeeting{
 		this.id = id;
 		this.date = date;
 		this.contacts = contacts;
-		
+		notes="";
 	}
+	/**
+	 * {@inheritDoc}
+	 */
 
 	@Override
 	public int getId() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return id;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Calendar getDate() {
-		// TODO Auto-generated method stub
-		return null;
+	
+		return date;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Set<Contact> getContacts() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return contacts;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 
 	@Override
 	public String getNotes() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return notes;
+	}
+	
+	public void addNotes(String notes) {
+		this.notes= notes; 
 	}
 
 }
