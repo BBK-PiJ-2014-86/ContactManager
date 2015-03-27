@@ -22,22 +22,35 @@ public class FutureMeetingImpl implements FutureMeeting {
 		this.contacts = contacts;
 	}
 
+	
+	/**
+	 * {@inheritDoc}
+	 *
+	 */
 	@Override
 	public int getId() {
-		// TODO Auto-generated method stub
-		return 0;
+	
+		return id;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 
 	@Override
 	public Calendar getDate() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return date;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 
 	@Override
 	public Set<Contact> getContacts() {
-		// TODO Auto-generated method stub
-		return null;
+	
+		return contacts;
 	}
 
 }
