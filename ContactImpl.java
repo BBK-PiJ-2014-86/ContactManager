@@ -2,7 +2,7 @@ package ContactManager;
 
 public class ContactImpl implements Contact{
 	
-	private String Notes;
+	private String notes;
 	private int id;
 	private String name;
 	
@@ -12,27 +12,46 @@ public class ContactImpl implements Contact{
 		
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 */
+	
 	@Override
 	public int getId() {
-		// TODO Auto-generated method stub
-		return 0;
+	    
+		return id;
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 */
+	
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return name;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 
 	@Override
 	public String getNotes() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return notes;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	
 	@Override
 	public void addNotes(String note) {
-		// TODO Auto-generated method stub
+		
+		notes = note;
 		
 	}
  
