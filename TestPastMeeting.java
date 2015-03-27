@@ -85,8 +85,9 @@ public class TestPastMeeting {
 		
 		assertEquals("hello",cont.getNotes());
 		
-		
 	}
+	
+	
 	
 	
 
