@@ -19,7 +19,8 @@ public class ContactManagerImpl implements ContactManager{
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
 		int meetingId = idCount;// meetingId gets the next available id 
 		
-		int checkIfPastDate = date.compareTo(Calendar.getInstance()); // comparing the passed date to the current date
+		int checkIfPastDate = date.compareTo(Calendar.getInstance()); // comparing the passed date to the current date. If the date is happening in the past, then the value of the variable will be less then 0;
+		if (checkIfPastDate < 0) throw new IllegalArgumentException();
 		
 		/*
 		 * The following for-loop goes through the Contacts in the set and checks against each contact
