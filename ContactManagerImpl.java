@@ -133,7 +133,7 @@ public class ContactManagerImpl implements ContactManager{
 			}
 		}
 		
-		/* At this point the list would contain all elements but not in chronological order.
+		/* At this point the list would contain all elements but not necessarily in chronological order.
 		 * The next line will sort the list in chronological order
 		 */
 		
@@ -141,11 +141,31 @@ public class ContactManagerImpl implements ContactManager{
 		
 		return list;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 
 	@Override
 	public List<Meeting> getFutureMeetingList(Calendar date) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	List <Meeting> list = new ArrayList(); // list will store found elements
+		
+		for (Meeting m : meetingList) {
+			if (m.getClass()==FutureMeeting.class) {//before executing checking if class is FutureMeeting. meetingList contains both past and future meetings
+				if(date.YEAR==m.getDate().YEAR && date.DAY_OF_YEAR == m.getDate().DAY_OF_YEAR) {
+					list.add(m);
+				}
+			}
+		}
+		
+		/* At this point the list would contain all elements but not necessarily in chronological order.
+		 * The next line will sort the list in chronological order
+		 */
+		
+		list.sort(Comparator.comparing(m->m.getDate()));
+		
+		return list;
 	}
 
 	@Override
