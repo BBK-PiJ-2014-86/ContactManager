@@ -48,7 +48,7 @@ public interface ContactManager {
 	* the list will be chronologically sorted and will not contain any
 	* duplicates.
 	*
-	* @param contact one of the userÕs contacts
+	* @param contact one of the userï¿½s contacts
 	* @return the list of future meeting(s) scheduled with this contact (maybe empty).
 	* @throws IllegalArgumentException if the contact does not exist
 	*/
@@ -71,7 +71,7 @@ public interface ContactManager {
 	* If there are none, the returned list will be empty. Otherwise,
 	* the list will be chronologically sorted and will not contain any * duplicates.
 	*
-	* @param contact one of the userÕs contacts
+	* @param contact one of the userï¿½s contacts
 	* @return the list of future meeting(s) scheduled with this contact (maybe empty).
 	* @throws IllegalArgumentException if the contact does not exist
 	*/
@@ -101,7 +101,7 @@ public interface ContactManager {
 	* @throws IllegalStateException if the meeting is set for a date in the future
 	* @throws NullPointerException if the notes are null
 	*/
-	void addMeetingNotes(int id, String text);
+	void addMeetingNotes(int id, String text);                                                                                                                     
 	/**
 	* Create a new contact with the specified name and notes.
 	*
