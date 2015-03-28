@@ -7,14 +7,19 @@ import java.util.Set;
 
 public class ContactManagerImpl implements ContactManager{
 	
-	private List <Contact> contactList;
-	private List <PastMeeting> pastMeetingList;
-	private List <FutureMeeting> futureMeetingList;
-	
+	private List <Meeting> meetings;
+	private List <Contact> contacts;
+	private int idCount;
 
+	/**
+	 * {@inheritDoc}
+	 */
+	
 	@Override
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
-		// TODO Auto-generated method stub
+		
+		
+		
 		return 0;
 	}
 
