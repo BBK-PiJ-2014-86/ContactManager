@@ -50,9 +50,9 @@ public class ContactManagerImpl implements ContactManager{
 		 * statement checks if there is a FutureMeeting with the id and throws IllegalArgumentException if so.
 		 */
 		for (Meeting m : meetingList){
-			if (m.getClass() == PastMeetingImpl.class && m.getId()==id ){
+			if (m.getClass() == PastMeeting.class && m.getId()==id ){
 				return (PastMeeting) m;
-			} else if (m.getClass() == FutureMeetingImpl.class && m.getId()==id) {
+			} else if (m.getClass() == FutureMeeting.class && m.getId()==id) {
 				throw new IllegalArgumentException();
 			}
 		}
@@ -60,10 +60,27 @@ public class ContactManagerImpl implements ContactManager{
 		return null;
 		
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+
 
 	@Override
 	public FutureMeeting getFutureMeeting(int id) {
-		// TODO Auto-generated method stub
+		
+		/*
+		 * The for-loop loops through meetingList and looks for FutureMeeting with the id requested. The else-if
+		 * statement checks if there is a PastMeeting with the id and throws IllegalArgumentException if so.
+		 */
+		for (Meeting m : meetingList){
+			if (m.getClass() == FutureMeeting.class && m.getId()==id ){
+				return (FutureMeeting) m;
+			} else if (m.getClass() == PastMeeting.class && m.getId()==id) {
+				throw new IllegalArgumentException();
+			}
+		}
+		
 		return null;
 	}
 
