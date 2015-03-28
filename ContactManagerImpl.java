@@ -37,11 +37,28 @@ public class ContactManagerImpl implements ContactManager{
 		idCount++;
 		return meetingId;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 
 	@Override
 	public PastMeeting getPastMeeting(int id) {
-		// TODO Auto-generated method stub
+		
+		/*
+		 * The for-loop loops through meetingList and looks for PastMeeting with the id requested. The else-if
+		 * statement checks if there is a FutureMeeting with the id and throws IllegalArgumentException if so.
+		 */
+		for (Meeting m : meetingList){
+			if (m.getClass() == PastMeetingImpl.class && m.getId()==id ){
+				return (PastMeeting) m;
+			} else if (m.getClass() == FutureMeetingImpl.class && m.getId()==id) {
+				throw new IllegalArgumentException();
+			}
+		}
+		
 		return null;
+		
 	}
 
 	@Override
