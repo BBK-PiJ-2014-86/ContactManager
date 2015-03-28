@@ -7,9 +7,9 @@ import java.util.Set;
 
 public class ContactManagerImpl implements ContactManager{
 	
-	private List <Meeting> meetings;
-	private List <Contact> contacts;
-	private int idCount;
+	private List <Meeting> meetingList;
+	private List <Contact> contactList;
+	private int idCount; //this variable will hold the next ID to be assigned to meetings
 
 	/**
 	 * {@inheritDoc}
@@ -17,10 +17,24 @@ public class ContactManagerImpl implements ContactManager{
 	
 	@Override
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
+		int meetingId = idCount;// meetingId gets the next available id 
 		
+		int checkIfPastDate = date.compareTo(Calendar.getInstance()); // comparing the passed date to the current date
 		
+		/*
+		 * The following for-loop goes through the Contacts in the set and checks against each contact
+		 * if it is found in the contactList. If not at any point, it will throw an IllegalArgumentException.
+		 */
+		for (Contact c: contacts) {
+			boolean found = contactList.contains(c);
+			if (!found) {
+				throw new IllegalArgumentException();
+			}
+		}
 		
-		return 0;
+		meetingList.add(new FutureMeetingImpl (meetingId, date, contacts));
+		idCount++;
+		return meetingId;
 	}
 
 	@Override
