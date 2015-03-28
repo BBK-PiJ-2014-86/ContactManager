@@ -170,8 +170,28 @@ public class ContactManagerImpl implements ContactManager{
 
 	@Override
 	public List<PastMeeting> getPastMeetingList(Contact contact) {
-		// TODO Auto-generated method stub
-		return null;
+		
+			List <PastMeeting> list = new ArrayList(); // list will store found elements
+			
+			if (!contactList.contains(contact)) throw new IllegalArgumentException();
+			
+			for (Meeting m : meetingList) {
+				if (m.getClass()==PastMeeting.class) {//before executing checking if class is FutureMeeting. meetingList contains both past and future meetings
+					for (Contact c : m.getContacts()){
+						if (c.equals(contact) && !list.contains(m)){ // find contact AND list does NOT contain the meeting
+						list.add((PastMeeting) m);
+						}
+					}
+				}
+			}
+			
+			/* At this point the list would contain all elements but not necessarily in chronological order.
+			 * The next line will sort the list in chronological order
+			 */
+			
+			list.sort(Comparator.comparing(m->m.getDate()));
+			
+			return list;
 	}
 
 	@Override
