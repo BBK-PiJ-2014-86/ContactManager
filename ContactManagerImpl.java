@@ -167,6 +167,10 @@ public class ContactManagerImpl implements ContactManager{
 		
 		return list;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 
 	@Override
 	public List<PastMeeting> getPastMeetingList(Contact contact) {
@@ -193,17 +197,48 @@ public class ContactManagerImpl implements ContactManager{
 			
 			return list;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 
 	@Override
-	public void addNewPastMeeting(Set<Contact> contacts, Calendar date,
-			String text) {
-		// TODO Auto-generated method stub
+	public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
 		
+		if(contacts.isEmpty()) throw new IllegalArgumentException(); // 
+		
+		//if contact not found, it throws IllegalArgumentException
+		
+		for (Contact c: contacts) {
+			boolean found = contactList.contains(c);
+			if (!found) {
+				throw new IllegalArgumentException();
+			}
+		}
+		int meetingId = idCount;
+		meetingList.add(new PastMeetingImpl(meetingId, date, contacts));
+		addMeetingNotes(meetingId, text);
+		idCount++;		
 	}
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
 
 	@Override
 	public void addMeetingNotes(int id, String text) {
-		// TODO Auto-generated method stub
+		
+		PastMeetingImpl meeting;
+		if(text==null) throw new NullPointerException ();
+		if(meetingList.get(id) ==null) throw new IllegalArgumentException ();
+		
+		meeting =(PastMeetingImpl) meetingList.get(id);
+		
+		if(meeting.getDate().compareTo(Calendar.getInstance())>0) throw new IllegalStateException();
+		
+		meeting.addNotes(text);
+		
 		
 	}
 
