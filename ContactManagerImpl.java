@@ -13,6 +13,7 @@ public class ContactManagerImpl implements ContactManager{
 	private List <Meeting> meetingList;
 	private List <Contact> contactList;
 	private int idCount; //this variable will hold the next ID to be assigned to meetings
+	private int contactCount; //this variable will hold the next ID to be assigned to contacts
 
 	/**
 	 * {@inheritDoc}
@@ -241,10 +242,20 @@ public class ContactManagerImpl implements ContactManager{
 		
 		
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 
 	@Override
 	public void addNewContact(String name, String notes) {
-		// TODO Auto-generated method stub
+		
+		if (name == null || notes == null) throw new NullPointerException () ;
+		
+		contactList.add(new ContactImpl(contactCount, name));
+		contactList.get(contactCount).addNotes(notes);
+		contactCount++;
+		
 		
 	}
 
