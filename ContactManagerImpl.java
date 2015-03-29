@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -256,13 +257,31 @@ public class ContactManagerImpl implements ContactManager{
 		contactList.get(contactCount).addNotes(notes);
 		contactCount++;
 		
-		
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 
 	@Override
 	public Set<Contact> getContacts(int... ids) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int [] array = ids;//turning the passed ids into int array
+		Set <Contact> contactSet = new HashSet(); // set where to add found contacts
+		
+		for (int i : array) {
+			if (i>= contactCount || i<0) throw new IllegalArgumentException (); // if any int is bigger that the count or less than 0, throws exception
+		}
+		
+		for (int i : array) {
+			for (Contact c : contactList) {
+				if (c.getId()==i) {
+					contactSet.add(c);
+				}
+			}
+		}
+		
+		return contactSet;
 	}
 
 	@Override
