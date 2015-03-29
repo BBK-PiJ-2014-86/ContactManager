@@ -43,25 +43,27 @@ public class ContactManagerImpl implements ContactManager{
 			
 			//
 		
-		try {
-			 in = new ObjectInputStream(new FileInputStream (storageFile));
-			 try {
-				storage = (Storage) in.readObject(); // reading the Storage object from the file
-			} catch (ClassNotFoundException e) {
+			try {
+				 in = new ObjectInputStream(new FileInputStream (storageFile));
+				 try {
+					storage = (Storage) in.readObject(); // reading the Storage object from the file
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				 
+				 // assigning the stored values from the file
+				
+				 meetingList = storage.getMeetingList();
+				 contactList = storage.getContactList();
+				 idCount = storage.getIdCount();
+				 contactCount = storage.getContactCount();
+				 
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			 
-			 // assigning the stored values from the file
-			
-			 meetingList = storage.getMeetingList();
-			 contactList = storage.getContactList();
-			 idCount = storage.getIdCount();
-			 contactCount = storage.getContactCount();
-			 
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-	}
+		
+		flush();
 	}
 
 
@@ -99,14 +101,16 @@ public class ContactManagerImpl implements ContactManager{
 	@Override
 	public PastMeeting getPastMeeting(int id) {
 		
+		refreshMeetings();
+		
 		/*
 		 * The for-loop loops through meetingList and looks for PastMeeting with the id requested. The else-if
 		 * statement checks if there is a FutureMeeting with the id and throws IllegalArgumentException if so.
 		 */
 		for (Meeting m : meetingList){
-			if (m.getClass() == PastMeeting.class && m.getId()==id ){
+			if (m instanceof PastMeeting && m.getId()==id ){
 				return (PastMeeting) m;
-			} else if (m.getClass() == FutureMeeting.class && m.getId()==id) {
+			} else if (m instanceof FutureMeeting && m.getId()==id) {
 				throw new IllegalArgumentException();
 			}
 		}
@@ -123,12 +127,14 @@ public class ContactManagerImpl implements ContactManager{
 	@Override
 	public FutureMeeting getFutureMeeting(int id) {
 		
+		refreshMeetings();
+		
 		/*
 		 * The for-loop loops through meetingList and looks for FutureMeeting with the id requested. The else-if
 		 * statement checks if there is a PastMeeting with the id and throws IllegalArgumentException if so.
 		 */
 		for (Meeting m : meetingList){
-			if (m.getClass() == FutureMeeting.class && m.getId()==id ){
+			if (m instanceof FutureMeeting && m.getId()==id ){
 				return (FutureMeeting) m;
 			} else if (m.getClass() == PastMeeting.class && m.getId()==id) {
 				throw new IllegalArgumentException();
@@ -170,12 +176,14 @@ public class ContactManagerImpl implements ContactManager{
 	@Override
 	public List<Meeting> getFutureMeetingList(Contact contact) {
 		
+		refreshMeetings();
+		
 		List <Meeting> list = new ArrayList(); // list will store found elements
 		
 		if (!contactList.contains(contact)) throw new IllegalArgumentException();
 		
 		for (Meeting m : meetingList) {
-			if (m.getClass()==FutureMeeting.class) {//before executing checking if class is FutureMeeting. meetingList contains both past and future meetings
+			if (m instanceof FutureMeeting) {//before executing checking if class is FutureMeeting. meetingList contains both past and future meetings
 				for (Contact c : m.getContacts()){
 					if (c.equals(contact) && !list.contains(m)){ // find contact AND list does NOT contain the meeting
 					list.add(m);
@@ -199,11 +207,13 @@ public class ContactManagerImpl implements ContactManager{
 
 	@Override
 	public List<Meeting> getFutureMeetingList(Calendar date) {
+		
+		refreshMeetings();
 	
 	List <Meeting> list = new ArrayList(); // list will store found elements
 		
 		for (Meeting m : meetingList) {
-			if (m.getClass()==FutureMeeting.class) {//before executing checking if class is FutureMeeting. meetingList contains both past and future meetings
+			if (m instanceof PastMeeting) {//before executing checking if class is FutureMeeting. meetingList contains both past and future meetings
 				if(date.YEAR==m.getDate().YEAR && date.DAY_OF_YEAR == m.getDate().DAY_OF_YEAR) {
 					list.add(m);
 				}
@@ -226,12 +236,14 @@ public class ContactManagerImpl implements ContactManager{
 	@Override
 	public List<PastMeeting> getPastMeetingList(Contact contact) {
 		
+		refreshMeetings();
+		
 			List <PastMeeting> list = new ArrayList(); // list will store found elements
 			
 			if (!contactList.contains(contact)) throw new IllegalArgumentException();
 			
 			for (Meeting m : meetingList) {
-				if (m.getClass()==PastMeeting.class) {//before executing checking if class is FutureMeeting. meetingList contains both past and future meetings
+				if (m instanceof PastMeeting) {//before executing checking if class is PastMeeting. meetingList contains both past and future meetings
 					for (Contact c : m.getContacts()){
 						if (c.equals(contact) && !list.contains(m)){ // find contact AND list does NOT contain the meeting
 						list.add((PastMeeting) m);
@@ -279,6 +291,7 @@ public class ContactManagerImpl implements ContactManager{
 
 	@Override
 	public void addMeetingNotes(int id, String text) {
+		refreshMeetings();
 		
 		PastMeetingImpl meeting;
 		if(text==null) throw new NullPointerException ();
@@ -424,7 +437,9 @@ public class ContactManagerImpl implements ContactManager{
 	
 	/**
 	 * 
-	 * @return a copy of the file where contacts are saved.
+	 * This method checks for FutureMeetings with past dates in the Meeting List. If so, 
+	 * creates a new PastMeeting object, assigns the same id and overwrites the FutureMeeting 
+	 * 
 	 */
 	
 	public void refreshMeetings () {
