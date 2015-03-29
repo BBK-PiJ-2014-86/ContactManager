@@ -16,7 +16,7 @@ public class Storage implements Serializable {
 		this.contactList =contactList;
 		this.meetingList = meetingList;
 		this.contactCount = contactCount;
-		this.idCount;
+		this.idCount = idCount;
 	}
 	
 	
