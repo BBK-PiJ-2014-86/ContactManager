@@ -15,6 +15,7 @@ public class ContactManagerImpl implements ContactManager{
 	private List <Contact> contactList;
 	private int idCount; //this variable will hold the next ID to be assigned to meetings
 	private int contactCount; //this variable will hold the next ID to be assigned to contacts
+	private Storage storage;
 
 	/**
 	 * {@inheritDoc}
@@ -304,10 +305,14 @@ public class ContactManagerImpl implements ContactManager{
 		return contactSet;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	
 	@Override
 	public void flush() {
-		// TODO Auto-generated method stub
 		
+		storage = new Storage (contactFile)
 	}
 	
 	/**
