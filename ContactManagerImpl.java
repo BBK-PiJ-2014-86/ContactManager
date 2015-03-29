@@ -21,13 +21,16 @@ public class ContactManagerImpl implements ContactManager{
 	private int idCount; //this variable will hold the next ID to be assigned to meetings
 	private int contactCount; //this variable will hold the next ID to be assigned to contacts
 	private Storage storage;
-	private final String STORAGE_FILE = "storage.java";
+	private final String STORAGE_FILE_NAME = "storage.java";
 	private File storageFile =null; 
 	
 	
 	public ContactManagerImpl () {	
 		
-		storageFile = new File(STORAGE_FILE);
+		storageFile = new File(STORAGE_FILE_NAME);
+		
+		 // First we check if the file exists. If it doesn't, it will initialise the variables.
+		 
 		
 		if (!storageFile.exists()) {
 			idCount = 0;
@@ -35,16 +38,25 @@ public class ContactManagerImpl implements ContactManager{
 			meetingList = new ArrayList();
 			contactList = new ArrayList();
 		} else {
-		ObjectInputStream in;
+		
+			ObjectInputStream in;
+			
+			//
 		
 		try {
 			 in = new ObjectInputStream(new FileInputStream (storageFile));
 			 try {
-				storage = (Storage) in.readObject();
+				storage = (Storage) in.readObject(); // reading the Storage object from the file
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 			 
+			 // assigning the stored values from the file
+			
+			 meetingList = storage.getMeetingList();
+			 contactList = storage.getContactList();
+			 idCount = storage.getIdCount();
+			 contactCount = storage.getContactCount();
 			 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -357,7 +369,7 @@ public class ContactManagerImpl implements ContactManager{
 		    	ObjectOutputStream oo = null;
 				storage = new Storage (contactList, meetingList, contactCount, idCount);
 				try {
-					 oo = new ObjectOutputStream(new FileOutputStream(STORAGE_FILE));
+					 oo = new ObjectOutputStream(new FileOutputStream(STORAGE_FILE_NAME));
 				} catch (IOException e) {
 					e.printStackTrace();
 				} finally {
@@ -415,8 +427,16 @@ public class ContactManagerImpl implements ContactManager{
 	 * @return a copy of the file where contacts are saved.
 	 */
 	
-	public File contactFileCopy ()  {
-		return null;
+	public void refreshMeetings () {
+		
+		Calendar presentTime = Calendar.getInstance();
+		
+		for (Meeting m : meetingList) {
+			if (m.getClass()==FutureMeeting.class && m.getDate().compareTo(presentTime)<0) {
+				m = (PastMeeting) m;
+			}
+		}
+		
 	}
 	
 	
