@@ -1,8 +1,10 @@
 package ContactManager;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +22,35 @@ public class ContactManagerImpl implements ContactManager{
 	private int contactCount; //this variable will hold the next ID to be assigned to contacts
 	private Storage storage;
 	private final String STORAGE_FILE = "storage.java";
+	private File storageFile =null; 
+	
+	
+	public ContactManagerImpl () {	
+		
+		storageFile = new File(STORAGE_FILE);
+		
+		if (!storageFile.exists()) {
+			idCount = 0;
+			contactCount = 0;
+			meetingList = new ArrayList();
+			contactList = new ArrayList();
+		}
+		ObjectInputStream in;
+		
+		try {
+			 in = new ObjectInputStream(new FileInputStream (storageFile));
+			 try {
+				storage = (Storage) in.readObject();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			 
+			 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 
 	/**
@@ -316,6 +347,31 @@ public class ContactManagerImpl implements ContactManager{
 	
 	@Override
 	public void flush() {
+		
+		// attaches a hook to save before shutdown. 
+		
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+
+		    @Override
+		    public void run() {
+		    	ObjectOutputStream oo = null;
+				storage = new Storage (contactList, meetingList, contactCount, idCount);
+				try {
+					 oo = new ObjectOutputStream(new FileOutputStream(STORAGE_FILE));
+				} catch (IOException e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						oo.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+		    }
+
+		});
+		
+		// it saves the current contents too
 		
 		ObjectOutputStream oo = null;
 		storage = new Storage (contactList, meetingList, contactCount, idCount);
