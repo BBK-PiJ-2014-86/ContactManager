@@ -1,6 +1,8 @@
 package ContactManager;
 
-public class ContactImpl implements Contact{
+import java.io.Serializable;
+
+public class ContactImpl implements Contact , Serializable{
 	
 	private String notes;
 	private int id;
