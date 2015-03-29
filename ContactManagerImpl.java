@@ -283,11 +283,25 @@ public class ContactManagerImpl implements ContactManager{
 		
 		return contactSet;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 
 	@Override
 	public Set<Contact> getContacts(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if (name == null) throw new NullPointerException ();//dealing with null String
+		
+		Set <Contact> contactSet = new HashSet();
+		
+		for (Contact c: contactList) {
+			if(c.getName().contains(name)) {
+				contactSet.add(c);
+			}
+		}
+		
+		return contactSet;
 	}
 
 	@Override
