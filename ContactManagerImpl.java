@@ -388,7 +388,7 @@ public class ContactManagerImpl implements ContactManager{
 		ObjectOutputStream oo = null;
 		storage = new Storage (contactList, meetingList, contactCount, idCount);
 		try {
-			 oo = new ObjectOutputStream(new FileOutputStream(STORAGE_FILE));
+			 oo = new ObjectOutputStream(new FileOutputStream(STORAGE_FILE_NAME));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
