@@ -312,21 +312,24 @@ public class ContactManagerImpl implements ContactManager{
 	
 	/**
 	 * This method takes a PastMeeting object and adds it to the ContactManager Implementation.
+	 * This method is created for testing purposes and would be deleted in real implementation
 	 * @param PastMeeting 
 	 */
 	
 	public void addNewPastMeeting (PastMeeting pastmeeting) {
-
+		
+		meetingList.add (pastmeeting);
 		
 	}
 	
 	/**
 	 * This method takes a FutureMeeting object and adds it to the ContractManager Implementation
+	 * This method is created for testing purposes and would be deleted in real implementation
 	 * @param FutureMeeting futureMeeting
 	 */
 	
 	public void addNewFutureMeeting (FutureMeeting futureMeeting) {
-		
+		meetingList.add(futureMeeting);
 	}
 	
 	/**
