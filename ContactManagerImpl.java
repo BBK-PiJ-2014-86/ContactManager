@@ -34,7 +34,7 @@ public class ContactManagerImpl implements ContactManager{
 			contactCount = 0;
 			meetingList = new ArrayList();
 			contactList = new ArrayList();
-		}
+		} else {
 		ObjectInputStream in;
 		
 		try {
@@ -49,7 +49,7 @@ public class ContactManagerImpl implements ContactManager{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+	}
 	}
 
 
