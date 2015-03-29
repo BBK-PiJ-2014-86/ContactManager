@@ -1,6 +1,9 @@
 package ContactManager;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -16,6 +19,8 @@ public class ContactManagerImpl implements ContactManager{
 	private int idCount; //this variable will hold the next ID to be assigned to meetings
 	private int contactCount; //this variable will hold the next ID to be assigned to contacts
 	private Storage storage;
+	private final String STORAGE_FILE = "storage.java";
+
 
 	/**
 	 * {@inheritDoc}
@@ -312,7 +317,19 @@ public class ContactManagerImpl implements ContactManager{
 	@Override
 	public void flush() {
 		
-		storage = new Storage (contactFile)
+		ObjectOutputStream oo = null;
+		storage = new Storage (contactList, meetingList, contactCount, idCount);
+		try {
+			 oo = new ObjectOutputStream(new FileOutputStream(STORAGE_FILE));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				oo.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**
