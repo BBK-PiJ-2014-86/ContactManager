@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -14,15 +15,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ContactManagerImpl implements ContactManager{
+public class ContactManagerImpl implements ContactManager, Serializable{
 	
 	private List <Meeting> meetingList;
 	private List <Contact> contactList;
 	private int idCount; //this variable will hold the next ID to be assigned to meetings
 	private int contactCount; //this variable will hold the next ID to be assigned to contacts
 	private Storage storage;
-	private final String STORAGE_FILE_NAME = "storage.java";
-	private File storageFile =null; 
+	private final String STORAGE_FILE_NAME = "storage.dat";
+	private File storageFile; 
 	
 	
 	public ContactManagerImpl () {	
@@ -37,33 +38,47 @@ public class ContactManagerImpl implements ContactManager{
 			contactCount = 0;
 			meetingList = new ArrayList();
 			contactList = new ArrayList();
+			flush();
 		} else {
 		
-			ObjectInputStream in;
+			ObjectInputStream in = null;;
 			
 			//
 		
 			try {
 				 in = new ObjectInputStream(new FileInputStream (storageFile));
 				 try {
+					 
 					storage = (Storage) in.readObject(); // reading the Storage object from the file
+					
+					meetingList = storage.getMeetingList();
+					System.out.println(meetingList.size());
+					 contactList = storage.getContactList();
+					 System.out.println(contactList.size());
+					 idCount = storage.getIdCount();
+					 System.out.println(idCount);
+					 contactCount = storage.getContactCount();
+					 System.out.println(contactCount);
+					 flush();
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
 				 
 				 // assigning the stored values from the file
 				
-				 meetingList = storage.getMeetingList();
-				 contactList = storage.getContactList();
-				 idCount = storage.getIdCount();
-				 contactCount = storage.getContactCount();
 				 
 			} catch (IOException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					in.close();
+				} catch (IOException e) {
+
+					e.printStackTrace();
+				}
 			}
 		}
 		
-		flush();
 	}
 
 
@@ -329,10 +344,11 @@ public class ContactManagerImpl implements ContactManager{
 	public Set<Contact> getContacts(int... ids) {
 		
 		int [] array = ids;//turning the passed ids into int array
+		System.out.println(array.length + " " + contactCount);
 		Set <Contact> contactSet = new HashSet(); // set where to add found contacts
 		
 		for (int i : array) {
-			if (i>= contactCount || i<0) throw new IllegalArgumentException (); // if any int is bigger that the count or less than 0, throws exception
+			if (i> contactCount || i<0) throw new IllegalArgumentException (); // if any int is bigger that the count or less than 0, throws exception
 		}
 		
 		for (int i : array) {
@@ -375,14 +391,17 @@ public class ContactManagerImpl implements ContactManager{
 		
 		// attaches a hook to save before shutdown. 
 		
+		storage = new Storage (contactList, meetingList, contactCount, idCount);
+
+		/*
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 
 		    @Override
 		    public void run() {
 		    	ObjectOutputStream oo = null;
-				storage = new Storage (contactList, meetingList, contactCount, idCount);
 				try {
-					 oo = new ObjectOutputStream(new FileOutputStream(STORAGE_FILE_NAME));
+					 oo = new ObjectOutputStream(new FileOutputStream(storageFile));
+					 oo.writeObject(storage);
 				} catch (IOException e) {
 					e.printStackTrace();
 				} finally {
@@ -396,12 +415,15 @@ public class ContactManagerImpl implements ContactManager{
 
 		});
 		
+		*/
+		
 		// it saves the current contents too
 		
 		ObjectOutputStream oo = null;
-		storage = new Storage (contactList, meetingList, contactCount, idCount);
+		
 		try {
-			 oo = new ObjectOutputStream(new FileOutputStream(STORAGE_FILE_NAME));
+			 oo = new ObjectOutputStream(new FileOutputStream(storageFile));
+			 oo.writeObject(storage);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -442,7 +464,7 @@ public class ContactManagerImpl implements ContactManager{
 	 * 
 	 */
 	
-	public void refreshMeetings () {
+	private void refreshMeetings () {
 		
 		Calendar presentTime = Calendar.getInstance(); 
 		
