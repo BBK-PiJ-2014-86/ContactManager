@@ -429,11 +429,19 @@ public class ContactManagerImpl implements ContactManager{
 	
 	public void refreshMeetings () {
 		
-		Calendar presentTime = Calendar.getInstance();
+		Calendar presentTime = Calendar.getInstance(); 
 		
+		/*
+		 * Loop through the Meeting objects looking for FutureMeeting which occur in the past. 
+		 * if found then a new object of type PastMeeting is created which copies the data and 
+		 * overwrites the FutureMeeting objects
+		 */
 		for (Meeting m : meetingList) {
-			if (m.getClass()==FutureMeeting.class && m.getDate().compareTo(presentTime)<0) {
-				m = (PastMeeting) m;
+			if (m instanceof FutureMeeting && m.getDate().compareTo(presentTime)<0) {
+				int id = m.getId();
+				Calendar date = m.getDate();
+				Set <Contact> contacts = m.getContacts();		
+				meetingList.add(new PastMeetingImpl(id, date, contacts));
 			}
 		}
 		
