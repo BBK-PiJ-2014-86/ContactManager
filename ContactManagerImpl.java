@@ -21,44 +21,64 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	private List <Contact> contactList;
 	private int idCount; //this variable will hold the next ID to be assigned to meetings
 	private int contactCount; //this variable will hold the next ID to be assigned to contacts
-	private Storage storage;
-	private final String STORAGE_FILE_NAME = "storage.dat";
-	private File storageFile; 
+	private final String STORAGE_MEETING_FILE_NAME = "meetings.java";
+	private final String STORAGE_CONTACT_FILE_NAME = "contacts.java";
+	private File contactFile;
+	private File meetingFile;
 	
 	
 	public ContactManagerImpl () {	
 		
-		storageFile = new File(STORAGE_FILE_NAME);
+		meetingFile = new File(STORAGE_MEETING_FILE_NAME);
+		contactFile = new File (STORAGE_CONTACT_FILE_NAME);
+		
 		
 		 // First we check if the file exists. If it doesn't, it will initialise the variables.
 		 
 		
-		if (!storageFile.exists()) {
+		if (!meetingFile.exists()) {
 			idCount = 0;
-			contactCount = 0;
 			meetingList = new ArrayList();
+			flush();
+		} else {
+			ObjectInputStream in = null;;
+		
+			try {
+				 in = new ObjectInputStream(new FileInputStream (meetingFile));
+				 try {
+					meetingList = (List)in.readObject();
+					idCount = in.readInt();
+					 flush();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				 
+				 // assigning the stored values from the file
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					in.close();
+				} catch (IOException e) {
+
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		if (!contactFile.exists()) {
+			contactCount = 0;
 			contactList = new ArrayList();
 			flush();
 		} else {
-		
 			ObjectInputStream in = null;;
-			
-			//
 		
 			try {
-				 in = new ObjectInputStream(new FileInputStream (storageFile));
+				 in = new ObjectInputStream(new FileInputStream (contactFile));
 				 try {
-					 
-					storage = (Storage) in.readObject(); // reading the Storage object from the file
-					
-					meetingList = storage.getMeetingList();
-					System.out.println(meetingList.size());
-					 contactList = storage.getContactList();
-					 System.out.println(contactList.size());
-					 idCount = storage.getIdCount();
-					 System.out.println(idCount);
-					 contactCount = storage.getContactCount();
-					 System.out.println(contactCount);
+					contactList = (List)in.readObject();
+					contactCount = in.readInt();
 					 flush();
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
@@ -103,7 +123,6 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 				throw new IllegalArgumentException();
 			}
 		}
-		
 		meetingList.add(new FutureMeetingImpl (meetingId, date, contacts));
 		idCount++;
 		return meetingId;
@@ -373,6 +392,8 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		
 		Set <Contact> contactSet = new HashSet();
 		
+		System.out.println(contactList.size());
+		
 		for (Contact c: contactList) {
 			if(c.getName().contains(name)) {
 				contactSet.add(c);
@@ -390,8 +411,6 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	public void flush() {
 		
 		// attaches a hook to save before shutdown. 
-		
-		storage = new Storage (contactList, meetingList, contactCount, idCount);
 
 		/*
 		Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -422,8 +441,10 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		ObjectOutputStream oo = null;
 		
 		try {
-			 oo = new ObjectOutputStream(new FileOutputStream(storageFile));
-			 oo.writeObject(storage);
+			 oo = new ObjectOutputStream(new FileOutputStream(meetingFile));
+			 oo.writeObject(meetingList);
+			 oo.writeInt(idCount);
+			 oo.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -433,7 +454,26 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 				e.printStackTrace();
 			}
 		}
+		
+		try {
+			 oo = new ObjectOutputStream(new FileOutputStream(contactFile));
+			 oo.writeObject(contactList);
+			 oo.writeInt(contactCount);
+			 oo.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				oo.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
+	
+	
+	
 	
 	/**
 	 * This method takes a PastMeeting object and adds it to the ContactManager Implementation.
@@ -484,7 +524,9 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		
 	}
 	
-	
+	public int getCount () {
+		return contactCount;
+	}
 	
 
 }
